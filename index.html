@@ -1,106 +1,103 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Dashboard Smart Farming</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Irrigation</title>
   <style>
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #eef2f3, #dbe9ea);
     }
+
+    body {
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    video#bg-video {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      filter: brightness(0.6);
+    }
+
     .container {
-      max-width: 800px;
-      margin: 50px auto;
-      padding: 20px;
-      background-color: white;
-      border-radius: 16px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
       text-align: center;
     }
-    h1 {
+
+    .logo {
+      width: 120px;
       margin-bottom: 20px;
-      color: #2c3e50;
     }
-    .metrics {
-      display: flex;
-      justify-content: space-around;
-      margin: 20px 0;
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
     }
-    .card {
-      background: #f0f9ff;
-      padding: 20px;
-      border-radius: 12px;
-      width: 150px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    .card h3 {
-      margin: 0;
-      color: #555;
-    }
-    .card p {
-      font-size: 24px;
-      margin: 10px 0 0;
-      color: #27ae60;
-    }
-    button {
-      padding: 12px 20px;
-      font-size: 16px;
+
+    .login-box {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 30px;
       border-radius: 10px;
-      margin: 10px;
-      border: none;
-      cursor: pointer;
-      transition: 0.3s;
+      max-width: 320px;
+      width: 100%;
     }
-    .on { background-color: #28a745; color: white; }
-    .off { background-color: #dc3545; color: white; }
-    .refresh { background-color: #007bff; color: white; }
+
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .login-box button {
+      background-color: #00c853;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      width: 100%;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .login-box button:hover {
+      background-color: #00b347;
+    }
   </style>
 </head>
 <body>
+
+  <video autoplay muted loop id="bg-video">
+    <source src="smart-irrigation-bg.mp4" type="video/mp4">
+    Votre navigateur ne supporte pas la vidéo HTML5.
+  </video>
+
   <div class="container">
-    <h1>🌿 Smart Farming - Dashboard</h1>
-
-    <div class="metrics">
-      <div class="card">
-        <h3>Température</h3>
-        <p id="temp">-- °C</p>
-      </div>
-      <div class="card">
-        <h3>Humidité</h3>
-        <p id="hum">-- %</p>
-      </div>
-    </div>
-
-    <div>
-      <button class="on" onclick="sendCmd('pompe','ON')">🚿 Pompe ON</button>
-      <button class="off" onclick="sendCmd('pompe','OFF')">🛑 Pompe OFF</button><br>
-      <button class="on" onclick="sendCmd('buzzer','ON')">🔔 Buzzer ON</button>
-      <button class="off" onclick="sendCmd('buzzer','OFF')">🔕 Buzzer OFF</button><br><br>
-      <button class="refresh" onclick="updateValues()">🔄 Actualiser</button>
+    <img src="logo1.jpg" alt="Logo Smart Irrigation" class="logo">
+    <h1>Connexion Smart Irrigation</h1>
+    <div class="login-box">
+      <form>
+        <input type="text" placeholder="Nom d'utilisateur" required>
+        <input type="password" placeholder="Mot de passe" required>
+        <button type="submit">Se connecter</button>
+      </form>
     </div>
   </div>
 
-  <script>
-    async function sendCmd(component, value) {
-      const response = await fetch('/api/commandes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ [component]: value })
-      });
-      const result = await response.json();
-      alert("✅ Commande envoyée : " + JSON.stringify(result.state));
-    }
-
-    function updateValues() {
-      const temp = (20 + Math.random() * 10).toFixed(1);
-      const hum = (40 + Math.random() * 20).toFixed(1);
-      document.getElementById("temp").innerText = temp + " °C";
-      document.getElementById("hum").innerText = hum + " %";
-    }
-
-    updateValues();
-  </script>
 </body>
 </html>
