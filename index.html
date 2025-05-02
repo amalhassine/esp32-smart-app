@@ -2,43 +2,76 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Commande ESP32 - Sécurisée</title>
+  <title>Smart Farming - Contrôle</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; margin-top: 40px; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-image: url('smart-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      margin: 0;
+      padding: 0;
+    }
+    .overlay {
+      background-color: rgba(255,255,255,0.9);
+      max-width: 500px;
+      margin: 80px auto;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    input, button {
+      padding: 12px;
+      margin: 10px 5px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #218838;
+    }
     .hidden { display: none; }
-    input, button { padding: 10px; margin: 5px; font-size: 16px; }
   </style>
 </head>
 <body>
-  <div id="loginForm">
-    <h2>Connexion sécurisée</h2>
-    <input type="text" id="username" placeholder="Nom d'utilisateur"><br>
-    <input type="password" id="password" placeholder="Mot de passe"><br>
-    <button onclick="login()">Se connecter</button>
-    <p id="errorMsg" style="color: red;"></p>
-  </div>
+  <div class="overlay">
+    <div id="loginForm">
+      <h2>🔐 Connexion - Smart Farming</h2>
+      <input type="text" id="username" placeholder="Nom d'utilisateur"><br>
+      <input type="password" id="password" placeholder="Mot de passe"><br>
+      <button onclick="login()">Se connecter</button>
+      <p id="errorMsg" style="color: red;"></p>
+    </div>
 
-  <div id="controlPanel" class="hidden">
-    <h2>Station ESP32 - Commande</h2>
-    <button onclick="sendCmd('pompe','ON')">🚿 Activer Pompe</button>
-    <button onclick="sendCmd('pompe','OFF')">🛑 Désactiver Pompe</button><br><br>
-    <button onclick="sendCmd('buzzer','ON')">🔔 Activer Buzzer</button>
-    <button onclick="sendCmd('buzzer','OFF')">🔕 Désactiver Buzzer</button><br><br>
-    <button onclick="logout()">🔒 Se déconnecter</button>
+    <div id="controlPanel" class="hidden">
+      <h2>🌱 Tableau de bord</h2>
+      <button onclick="sendCmd('pompe','ON')">🚿 Activer Pompe</button>
+      <button onclick="sendCmd('pompe','OFF')">🛑 Désactiver Pompe</button><br>
+      <button onclick="sendCmd('buzzer','ON')">🔔 Activer Buzzer</button>
+      <button onclick="sendCmd('buzzer','OFF')">🔕 Désactiver Buzzer</button><br>
+      <button onclick="logout()">Déconnexion</button>
+    </div>
   </div>
 
   <script>
-    const validUsername = "admin";
-    const validPassword = "esp32pass";
+    const validUsername = "amal hassine";
+    const validPassword = "amal123";
 
     function login() {
-      const user = document.getElementById("username").value;
-      const pass = document.getElementById("password").value;
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
       if (user === validUsername && pass === validPassword) {
         document.getElementById("loginForm").classList.add("hidden");
         document.getElementById("controlPanel").classList.remove("hidden");
       } else {
-        document.getElementById("errorMsg").innerText = "Identifiants incorrects !";
+        document.getElementById("errorMsg").innerText = "❌ Identifiants incorrects";
       }
     }
 
