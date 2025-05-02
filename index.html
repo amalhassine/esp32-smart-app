@@ -2,84 +2,87 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Smart Farming - Contrôle</title>
+  <title>Dashboard Smart Farming</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-image: url('smart-bg.jpg');
-      background-size: cover;
-      background-position: center;
       margin: 0;
-      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #eef2f3, #dbe9ea);
     }
-    .overlay {
-      background-color: rgba(255,255,255,0.9);
-      max-width: 500px;
-      margin: 80px auto;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 16px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
       text-align: center;
     }
-    input, button {
-      padding: 12px;
-      margin: 10px 5px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
+    h1 {
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+    .metrics {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+    .card {
+      background: #f0f9ff;
+      padding: 20px;
+      border-radius: 12px;
+      width: 150px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .card h3 {
+      margin: 0;
+      color: #555;
+    }
+    .card p {
+      font-size: 24px;
+      margin: 10px 0 0;
+      color: #27ae60;
     }
     button {
-      background-color: #28a745;
-      color: white;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 10px;
+      margin: 10px;
+      border: none;
       cursor: pointer;
       transition: 0.3s;
     }
-    button:hover {
-      background-color: #218838;
-    }
-    .hidden { display: none; }
+    .on { background-color: #28a745; color: white; }
+    .off { background-color: #dc3545; color: white; }
+    .refresh { background-color: #007bff; color: white; }
   </style>
 </head>
 <body>
-  <div class="overlay">
-    <div id="loginForm">
-      <h2>🔐 Connexion - Smart Farming</h2>
-      <input type="text" id="username" placeholder="Nom d'utilisateur"><br>
-      <input type="password" id="password" placeholder="Mot de passe"><br>
-      <button onclick="login()">Se connecter</button>
-      <p id="errorMsg" style="color: red;"></p>
+  <div class="container">
+    <h1>🌿 Smart Farming - Dashboard</h1>
+
+    <div class="metrics">
+      <div class="card">
+        <h3>Température</h3>
+        <p id="temp">-- °C</p>
+      </div>
+      <div class="card">
+        <h3>Humidité</h3>
+        <p id="hum">-- %</p>
+      </div>
     </div>
 
-    <div id="controlPanel" class="hidden">
-      <h2>🌱 Tableau de bord</h2>
-      <button onclick="sendCmd('pompe','ON')">🚿 Activer Pompe</button>
-      <button onclick="sendCmd('pompe','OFF')">🛑 Désactiver Pompe</button><br>
-      <button onclick="sendCmd('buzzer','ON')">🔔 Activer Buzzer</button>
-      <button onclick="sendCmd('buzzer','OFF')">🔕 Désactiver Buzzer</button><br>
-      <button onclick="logout()">Déconnexion</button>
+    <div>
+      <button class="on" onclick="sendCmd('pompe','ON')">🚿 Pompe ON</button>
+      <button class="off" onclick="sendCmd('pompe','OFF')">🛑 Pompe OFF</button><br>
+      <button class="on" onclick="sendCmd('buzzer','ON')">🔔 Buzzer ON</button>
+      <button class="off" onclick="sendCmd('buzzer','OFF')">🔕 Buzzer OFF</button><br><br>
+      <button class="refresh" onclick="updateValues()">🔄 Actualiser</button>
     </div>
   </div>
 
   <script>
-    const validUsername = "amal hassine";
-    const validPassword = "amal123";
-
-    function login() {
-      const user = document.getElementById("username").value.trim();
-      const pass = document.getElementById("password").value.trim();
-      if (user === validUsername && pass === validPassword) {
-        document.getElementById("loginForm").classList.add("hidden");
-        document.getElementById("controlPanel").classList.remove("hidden");
-      } else {
-        document.getElementById("errorMsg").innerText = "❌ Identifiants incorrects";
-      }
-    }
-
-    function logout() {
-      document.getElementById("controlPanel").classList.add("hidden");
-      document.getElementById("loginForm").classList.remove("hidden");
-    }
-
     async function sendCmd(component, value) {
       const response = await fetch('/api/commandes', {
         method: 'POST',
@@ -89,6 +92,15 @@
       const result = await response.json();
       alert("✅ Commande envoyée : " + JSON.stringify(result.state));
     }
+
+    function updateValues() {
+      const temp = (20 + Math.random() * 10).toFixed(1);
+      const hum = (40 + Math.random() * 20).toFixed(1);
+      document.getElementById("temp").innerText = temp + " °C";
+      document.getElementById("hum").innerText = hum + " %";
+    }
+
+    updateValues();
   </script>
 </body>
 </html>
