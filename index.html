@@ -1,58 +1,94 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Connexion - Smart Irrigation</title>
+  <title>Smart Farming - Contrôle</title>
   <style>
     body {
+      font-family: 'Segoe UI', sans-serif;
+      background-image: url('smart-bg.jpg');
+      background-size: cover;
+      background-position: center;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
-      background: #0e1c26 url('smart-irrigation-bg.mp4') no-repeat center center fixed;
-      background-size: cover;
     }
-    .login-container {
-      background: rgba(0, 0, 0, 0.6);
-      max-width: 350px;
-      margin: 100px auto;
-      padding: 20px;
-      border-radius: 10px;
-      color: white;
+    .overlay {
+      background-color: rgba(255,255,255,0.9);
+      max-width: 500px;
+      margin: 80px auto;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
       text-align: center;
     }
-    .login-container img {
-      width: 100px;
-      margin-bottom: 15px;
+    input, button {
+      padding: 12px;
+      margin: 10px 5px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
-    .login-container input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 5px;
-    }
-    .login-container button {
-      width: 100%;
-      padding: 10px;
-      background: #00c853;
+    button {
+      background-color: #28a745;
       color: white;
-      border: none;
-      border-radius: 5px;
       cursor: pointer;
+      transition: 0.3s;
     }
+    button:hover {
+      background-color: #218838;
+    }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
-  <div class="login-container">
-    <img src="logo1.jpg" alt="Logo Smart Irrigation">
-    <h2>Connexion</h2>
-    <form action="dashboard.html" method="get">
-      <input type="text" placeholder="Nom d'utilisateur" required>
-      <input type="password" placeholder="Mot de passe" required>
-      <button type="submit">Se connecter</button>
-    </form>
+  <div class="overlay">
+    <div id="loginForm">
+      <h2>🔐 Connexion - Smart Farming</h2>
+      <input type="text" id="username" placeholder="Nom d'utilisateur"><br>
+      <input type="password" id="password" placeholder="Mot de passe"><br>
+      <button onclick="login()">Se connecter</button>
+      <p id="errorMsg" style="color: red;"></p>
+    </div>
+
+    <div id="controlPanel" class="hidden">
+      <h2>🌱 Tableau de bord</h2>
+      <button onclick="sendCmd('pompe','ON')">🚿 Activer Pompe</button>
+      <button onclick="sendCmd('pompe','OFF')">🛑 Désactiver Pompe</button><br>
+      <button onclick="sendCmd('buzzer','ON')">🔔 Activer Buzzer</button>
+      <button onclick="sendCmd('buzzer','OFF')">🔕 Désactiver Buzzer</button><br>
+      <button onclick="logout()">Déconnexion</button>
+    </div>
   </div>
+
+  <script>
+    const validUsername = "amal hassine";
+    const validPassword = "amal123";
+
+    function login() {
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
+      if (user === validUsername && pass === validPassword) {
+        document.getElementById("loginForm").classList.add("hidden");
+        document.getElementById("controlPanel").classList.remove("hidden");
+      } else {
+        document.getElementById("errorMsg").innerText = "❌ Identifiants incorrects";
+      }
+    }
+
+    function logout() {
+      document.getElementById("controlPanel").classList.add("hidden");
+      document.getElementById("loginForm").classList.remove("hidden");
+    }
+
+    async function sendCmd(component, value) {
+      const response = await fetch('/api/commandes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ [component]: value })
+      });
+      const result = await response.json();
+      alert("✅ Commande envoyée : " + JSON.stringify(result.state));
+    }
+  </script>
 </body>
 </html>
