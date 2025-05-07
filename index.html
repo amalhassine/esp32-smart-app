@@ -4,14 +4,24 @@
   <meta charset="UTF-8">
   <title>Smart Farming - Contrôle</title>
   <style>
+    /* Fond vidéo */
+    #bgVideo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-image: url('smart-bg.jpg');
-      background-size: cover;
-      background-position: center;
       margin: 0;
       padding: 0;
+      overflow: hidden;
     }
+
     .overlay {
       background-color: rgba(255,255,255,0.9);
       max-width: 500px;
@@ -20,7 +30,10 @@
       border-radius: 20px;
       box-shadow: 0 0 20px rgba(0,0,0,0.2);
       text-align: center;
+      z-index: 1;
+      position: relative;
     }
+
     input, button {
       padding: 12px;
       margin: 10px 5px;
@@ -28,19 +41,29 @@
       border-radius: 8px;
       border: 1px solid #ccc;
     }
+
     button {
       background-color: #28a745;
       color: white;
       cursor: pointer;
       transition: 0.3s;
     }
+
     button:hover {
       background-color: #218838;
     }
+
     .hidden { display: none; }
   </style>
 </head>
 <body>
+
+  <!-- 🎥 Vidéo d’arrière-plan -->
+  <video autoplay muted loop id="bgVideo">
+    <source src="smart-irrigation.mp4" type="video/mp4">
+    Votre navigateur ne supporte pas la lecture de vidéos HTML5.
+  </video>
+
   <div class="overlay">
     <div id="loginForm">
       <h2>🔐 Connexion - Smart Farming</h2>
@@ -49,7 +72,11 @@
       <button onclick="login()">Se connecter</button>
       <p id="errorMsg" style="color: red;"></p>
     </div>
-
+  <!-- 🎥 Vidéo d’arrière-plan -->
+  <video autoplay muted loop id="bgVideo">
+    <source src="smart-irrigation.mp4" type="video/mp4">
+    Votre navigateur ne supporte pas la lecture de vidéos HTML5.
+  </video>
     <div id="controlPanel" class="hidden">
       <h2>🌱 Tableau de bord</h2>
       <button onclick="sendCmd('pompe','ON')">🚿 Activer Pompe</button>
