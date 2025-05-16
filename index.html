@@ -1,82 +1,23 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Smart Farming - Tableau de Bord</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Smart Farming - Contrôle de l'irrigation</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="overlay">
-    <header>
-      <h1>Station Smart Farming</h1>
-      <p>Suivi en temps réel & Commande intelligente</p>
-    </header>
-
-    <section class="login" id="loginSection">
-      <input type="text" id="username" placeholder="Nom d'utilisateur">
-      <input type="password" id="password" placeholder="Mot de passe">
-      <button onclick="login()">Connexion</button>
-      <p id="loginError" style="color:red;"></p>
-    </section>
-
-    <div id="mainContent" style="display:none">
-      <section class="sensors">
-        <div class="sensor">
-          <img src="temp.png" alt="Température">
-          <p><span id="temp">--</span> °C</p>
+    <div class="container">
+        <div class="info">
+            <p>🌡️ 23°C</p>
+            <p>💧 60%</p>
         </div>
-        <div class="sensor">
-          <img src="humid.png" alt="Humidité">
-          <p><span id="humid">--</span> %</p>
+        <img src="img/bg.jpg" alt="Background" class="background">
+        <div class="logo">SMART FARMING</div>
+        <div class="controls">
+            <button class="on" onclick="alert('Pompe activée !')">Activer Pompe</button>
+            <button class="off" onclick="alert('Pompe désactivée !')">Désactiver Pompe</button>
         </div>
-      </section>
-
-      <section class="controls">
-        <button onclick="sendCommand('ON')" class="on">Activer Pompe</button>
-        <button onclick="sendCommand('OFF')" class="off">Désactiver Pompe</button>
-      </section>
-
-      <section class="thingspeak">
-        <h2>Visualisation ThingSpeak</h2>
-        <iframe width="450" height="260" style="border: 1px solid #ccc;" src="https://thingspeak.com/channels/000000/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true"></iframe>
-      </section>
-
-      <section class="real-image">
-        <h2>Image réelle du système</h2>
-        <img src="photo_systeme.png" alt="Système Smart Farming" width="300">
-      </section>
     </div>
-
-  </div>
-
-  <script>
-    function login() {
-      const user = document.getElementById("username").value;
-      const pass = document.getElementById("password").value;
-      if(user === "amal hassine" && pass === "amal123") {
-        document.getElementById("loginSection").style.display = "none";
-        document.getElementById("mainContent").style.display = "block";
-      } else {
-        document.getElementById("loginError").innerText = "Identifiants incorrects.";
-      }
-    }
-
-    function refreshData() {
-      fetch('http://192.168.43.223/capteurs')
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById('temp').innerText = data.temperature;
-          document.getElementById('humid').innerText = data.humidite;
-        });
-    }
-
-    function sendCommand(state) {
-      fetch('http://192.168.43.223/api/commandes?pompe=' + state)
-        .then(response => alert("Commande envoyée: " + state))
-        .catch(err => alert("Erreur d'envoi"));
-    }
-
-    setInterval(refreshData, 3000);
-  </script>
 </body>
 </html>
