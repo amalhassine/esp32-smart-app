@@ -1,23 +1,30 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Smart Farming - Contrôle de l'irrigation</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Contrôle de l’irrigation via ESP32</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="info">
-            <p>🌡️ 23°C</p>
-            <p>💧 60%</p>
-        </div>
-        <img src="img/bg.jpg" alt="Background" class="background">
-        <div class="logo">SMART FARMING</div>
-        <div class="controls">
-            <button class="on" onclick="alert('Pompe activée !')">Activer Pompe</button>
-            <button class="off" onclick="alert('Pompe désactivée !')">Désactiver Pompe</button>
-        </div>
+  <div class="container">
+    <video autoplay muted loop id="bgVideo">
+      <source src="img/animation.mp4" type="video/mp4">
+      Votre navigateur ne supporte pas la lecture vidéo.
+    </video>
+    <div class="overlay">
+      <div class="header">
+        <h1>SMART FARMING</h1>
+        <p>Contrôle de l’irrigation via ESP32</p>
+      </div>
+      <div class="status">
+        <div class="temperature">🌡️ 23°C</div>
+        <div class="humidity">💧 60%</div>
+      </div>
+      <div class="controls">
+        <button class="on">Activer Pompe</button>
+        <button class="off">Désactiver Pompe</button>
+      </div>
     </div>
+  </div>
 </body>
 </html>
