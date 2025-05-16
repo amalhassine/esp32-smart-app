@@ -1,0 +1,72 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-image: url('background.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+}
+
+.overlay {
+  background-color: rgba(0,0,0,0.6);
+  min-height: 100vh;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.login input {
+  padding: 10px;
+  margin: 5px;
+  font-size: 1em;
+}
+.login button {
+  padding: 10px 20px;
+  font-size: 1em;
+}
+
+.sensors {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  margin-top: 40px;
+}
+
+.sensor img {
+  width: 60px;
+}
+
+.sensor p {
+  font-size: 1.5em;
+  margin-top: 10px;
+}
+
+.controls {
+  margin-top: 40px;
+}
+
+button {
+  font-size: 20px;
+  padding: 15px 30px;
+  margin: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.on { background-color: #28a745; color: white; }
+.off { background-color: #dc3545; color: white; }
+
+.thingspeak iframe {
+  margin-top: 20px;
+}
+
+.real-image img {
+  margin-top: 20px;
+  border: 2px solid white;
+  border-radius: 10px;
+}
